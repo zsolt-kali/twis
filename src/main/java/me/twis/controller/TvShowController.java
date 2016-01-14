@@ -23,7 +23,7 @@ public class TvShowController {
     private static final String PATH_PARAM_QUERY = "query=";
     private static final String PATH_PARAM_API_KEY = "api_key=";
 
-    @Value("${theMovieDb.apiKey}")
+    @Value("${themoviedb.apikey}")
     private String movieDbApiKey;
 
     @RequestMapping("/search/tv-show/title/{title}")
