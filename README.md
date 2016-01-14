@@ -5,4 +5,4 @@ An API key of [themoviedb] is required and should be provided as environment var
 ```sh
 theMovieDb.apiKey: YOUR_KEY_GOES_HERE
 ```
-[themoviedb]: <https:Improve descriptionIs//www.themoviedb.org/documentation/api>
+[themoviedb]: <https://www.themoviedb.org/documentation/api>
