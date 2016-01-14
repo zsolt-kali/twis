@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by kalizsolt on 10/01/16.
  */
-public class MovieDbResponse {
+public class TvShowSearchResult {
     private int page;
 
     @JsonProperty("total_results")
@@ -16,7 +16,7 @@ public class MovieDbResponse {
     @JsonProperty("total_pages")
     private int totalPages;
 
-    private List<MovieDbResponseResult> results;
+    private List<TvShow> results;
 
     public int getPage() {
         return page;
@@ -42,11 +42,11 @@ public class MovieDbResponse {
         this.totalPages = totalPages;
     }
 
-    public List<MovieDbResponseResult> getResults() {
+    public List<TvShow> getResults() {
         return results;
     }
 
-    public void setResults(List<MovieDbResponseResult> results) {
+    public void setResults(List<TvShow> results) {
         this.results = results;
     }
 }

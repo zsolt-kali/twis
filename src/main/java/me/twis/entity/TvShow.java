@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by kalizsolt on 10/01/16.
  */
-public class MovieDbResponseResult {
+public class TvShow {
     @JsonProperty("poster_path")
     private String posterPath;
 
