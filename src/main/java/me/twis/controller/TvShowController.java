@@ -30,9 +30,13 @@ public class TvShowController {
     @ResponseBody
     public TvShowSearchResult searchTvShowByTitle(@PathVariable String title) {
         RestTemplate restTemplate = new RestTemplate();
-        TvShowSearchResult result = restTemplate.getForObject(MOVIE_DB_HOST + "/" + MOVIE_DB_SEARCH_TV + "?" +
-                PATH_PARAM_QUERY + title + "&" + PATH_PARAM_API_KEY + movieDbApiKey, TvShowSearchResult.class);
+        TvShowSearchResult result = restTemplate.getForObject(getSearchTvShowByTitleUrl(title), TvShowSearchResult.class);
         return result;
+    }
+
+    private String getSearchTvShowByTitleUrl(@PathVariable String title) {
+        return MOVIE_DB_HOST + "/" + MOVIE_DB_SEARCH_TV + "?" +
+                PATH_PARAM_QUERY + title + "&" + PATH_PARAM_API_KEY + movieDbApiKey;
     }
 
     @RequestMapping("/validate/tv-show/id/{id}/season/{season}/episode/{episode}")
@@ -41,12 +45,16 @@ public class TvShowController {
         RestTemplate restTemplate = new RestTemplate();
 
         try {
-            restTemplate.getForObject(MOVIE_DB_HOST + "/" + MOVIE_DB_SEARCH_EPISODE + "/" + id + "/season/" +
-                    season + "/episode/" + episode + "?" + PATH_PARAM_API_KEY + movieDbApiKey, Episode.class);
+            restTemplate.getForObject(getRetrieveEpisodeInformationUrl(id, season, episode), Episode.class);
         } catch (HttpClientErrorException ex) {
             return new Validation(false);
         }
 
         return new Validation(true);
+    }
+
+    private String getRetrieveEpisodeInformationUrl(@PathVariable int id, @PathVariable int season, @PathVariable int episode) {
+        return MOVIE_DB_HOST + "/" + MOVIE_DB_SEARCH_EPISODE + "/" + id + "/season/" +
+                season + "/episode/" + episode + "?" + PATH_PARAM_API_KEY + movieDbApiKey;
     }
 }
