@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import javax.websocket.server.PathParam;
+
 /**
  * Created by kalizsolt on 10/01/16.
  */
@@ -26,9 +28,9 @@ public class TvShowController {
     @Value("${themoviedb.apikey}")
     private String movieDbApiKey;
 
-    @RequestMapping("/search/tv-show/title/{title}")
+    @RequestMapping("/search/tv-show")
     @ResponseBody
-    public TvShowSearchResult searchTvShowByTitle(@PathVariable String title) {
+    public TvShowSearchResult searchTvShowByTitle(@PathParam("title") String title) {
         RestTemplate restTemplate = new RestTemplate();
         TvShowSearchResult result = restTemplate.getForObject(getSearchTvShowByTitleUrl(title), TvShowSearchResult.class);
         return result;

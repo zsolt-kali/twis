@@ -1,2 +1,2 @@
-angular.module("myApp", ["ngResource", "myApp.controllers"]);
-angular.module("myApp.controllers", []);
+angular.module("twis", ["ngResource", "ui.bootstrap", "twis.controllers"]);
+angular.module("twis.controllers", []);
