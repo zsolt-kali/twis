@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <link rel="stylesheet" href="./bower_components/bootstrap-css-only/css/bootstrap.min.css" />
     <link rel="stylesheet" href="./css/style.css" />
 </head>
@@ -17,13 +17,10 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-2">
-            <label class="follow-tv-show-title">Follow</label>
-        </div>
-        <div class="col-xs-10">
+        <div class="col-xs-12">
             <input type="text"
                    ng-model="asyncSelected"
-                   placeholder="TV Show by it's title"
+                   placeholder="Follow TV Show by it's title"
 
                    uib-typeahead="twshow as twshow.name for twshow in getTvShowByTitle($viewValue)"
                    typeahead-loading="loadingTvShows"
