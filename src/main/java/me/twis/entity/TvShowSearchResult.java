@@ -49,4 +49,10 @@ public class TvShowSearchResult {
     public void setResults(List<TvShow> results) {
         this.results = results;
     }
+
+    public void updateTvShowWithPosterPathPrefix(String posterPath) {
+        for (TvShow tvShow : results) {
+            tvShow.updateTvShowWithPosterPathPrefix(posterPath);
+        }
+    }
 }

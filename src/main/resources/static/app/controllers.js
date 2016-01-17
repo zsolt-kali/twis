@@ -7,7 +7,7 @@ var AppController = function ($scope, $http) {
             }
         }).then(function (response) {
             return response.data.results.map(function (item) {
-                return item.name;
+                return item;
             });
         });
     };

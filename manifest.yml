@@ -1,0 +1,6 @@
+---
+applications:
+- name: coby-twis
+  memory: 900M
+  instances: 1
+  path: target/twis-0.0.1-SNAPSHOT.jar

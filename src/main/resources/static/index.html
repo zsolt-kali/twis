@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="./bower_components/bootstrap-css-only/css/bootstrap.min.css" />
     <link rel="stylesheet" href="./css/style.css" />
 </head>
@@ -20,7 +21,17 @@
             <label class="follow-tv-show-title">Follow</label>
         </div>
         <div class="col-xs-10">
-            <input type="text" ng-model="asyncSelected" placeholder="TV Show by it's title" uib-typeahead="titles for titles in getTvShowByTitle($viewValue)" typeahead-loading="loadingTvShows" typeahead-no-results="noResults" class="form-control">
+            <input type="text"
+                   ng-model="asyncSelected"
+                   placeholder="TV Show by it's title"
+
+                   uib-typeahead="twshow as twshow.name for twshow in getTvShowByTitle($viewValue)"
+                   typeahead-loading="loadingTvShows"
+                   typeahead-no-results="noResults"
+                   typeahead-show-hint="true"
+                   typeahead-min-length="3"
+                   class="form-control"
+                   typeahead-template-url="./template/tv-show-item.html">
             <i ng-show="loadingTvShows" class="glyphicon glyphicon-refresh"></i>
             <div ng-show="noResults">
                 <i class="glyphicon glyphicon-remove"></i> No Results Found

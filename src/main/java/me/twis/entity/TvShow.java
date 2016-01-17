@@ -1,6 +1,7 @@
 package me.twis.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -146,5 +147,11 @@ public class TvShow {
 
     public void setOriginalName(String originalName) {
         this.originalName = originalName;
+    }
+
+    public void updateTvShowWithPosterPathPrefix(String posterPathPrefix) {
+        if (!StringUtils.isEmpty(posterPath)) {
+            posterPath = posterPathPrefix + posterPath;
+        }
     }
 }

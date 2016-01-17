@@ -1,6 +1,7 @@
 package me.twis.controller;
 
 import me.twis.entity.Episode;
+import me.twis.entity.TvShowConfiguration;
 import me.twis.entity.TvShowSearchResult;
 import me.twis.entity.Validation;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +22,7 @@ public class TvShowController {
     private static final String MOVIE_DB_HOST = "https://api.themoviedb.org/3";
     private static final String MOVIE_DB_SEARCH_TV = "search/tv";
     private static final String MOVIE_DB_SEARCH_EPISODE = "tv";
+    public static final String MOVIE_DB_CONFIGURATION = "configuration";
 
     private static final String PATH_PARAM_QUERY = "query=";
     private static final String PATH_PARAM_API_KEY = "api_key=";
@@ -33,12 +35,25 @@ public class TvShowController {
     public TvShowSearchResult searchTvShowByTitle(@PathParam("title") String title) {
         RestTemplate restTemplate = new RestTemplate();
         TvShowSearchResult result = restTemplate.getForObject(getSearchTvShowByTitleUrl(title), TvShowSearchResult.class);
+        result.updateTvShowWithPosterPathPrefix(getPosterUrl());
+
         return result;
     }
 
     private String getSearchTvShowByTitleUrl(@PathVariable String title) {
         return MOVIE_DB_HOST + "/" + MOVIE_DB_SEARCH_TV + "?" +
                 PATH_PARAM_QUERY + title + "&" + PATH_PARAM_API_KEY + movieDbApiKey;
+    }
+
+    private String getPosterUrl() {
+        RestTemplate restTemplate = new RestTemplate();
+        TvShowConfiguration configuration = restTemplate.getForObject(getConfigurationUrl(), TvShowConfiguration.class);
+
+        return configuration.getImages().getBaseUrl() + configuration.getImages().getPosterSizes().get(0);
+    }
+
+    private String getConfigurationUrl() {
+        return MOVIE_DB_HOST + "/" + MOVIE_DB_CONFIGURATION + "?" + PATH_PARAM_API_KEY + movieDbApiKey;
     }
 
     @RequestMapping("/validate/tv-show/id/{id}/season/{season}/episode/{episode}")

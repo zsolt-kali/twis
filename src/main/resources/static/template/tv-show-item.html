@@ -1,0 +1,9 @@
+<a>
+    <img ng-src="{{match.model.poster_path}}"
+         ng-hide="{{match.model.poster_path == null}}"
+         style="width: 45px; height: 68px;">
+    <img ng-src="../img/image_not_found.png"
+         ng-show="{{match.model.poster_path == null}}"
+         style="width: 45px; height: 68px;">
+    <span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
+</a>
