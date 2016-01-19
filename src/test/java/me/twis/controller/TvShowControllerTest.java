@@ -4,7 +4,6 @@ import me.twis.entity.TvShow;
 import me.twis.entity.TvShowConfiguration;
 import me.twis.entity.TvShowImages;
 import me.twis.entity.TvShowSearchResult;
-import me.twis.util.TheMovieDbUriBuilder;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,12 +28,17 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
  */
 
 public class TvShowControllerTest {
-    public static final String TV_SHOW_TITLE = "TvShowTitle";
-    public static final int TV_SHOW_ID = 123;
-    public static final String TV_SHOW_IMAGES_BASE_URL = "tvShowImagesBaseUrl";
-    public static final String POSTER_SIZE = "posterSize";
-    public static final String PROP_KEY_MOVIE_DB_API_KEY = "movieDbApiKey";
-    public static final String PROP_VALUE_API_KEY = "apiKey";
+    private static final String TV_SHOW_TITLE = "TvShowTitle";
+    private static final int TV_SHOW_ID = 123;
+    private static final String TV_SHOW_IMAGES_BASE_URL = "tvShowImagesBaseUrl";
+    private static final String POSTER_SIZE = "posterSize";
+    private static final String PROP_KEY_MOVIE_DB_API_KEY = "movieDbApiKey";
+    private static final String PROP_VALUE_API_KEY = "apiKey";
+    private static final String PROP_KEY_MOVIE_DB_ROOT_URL = "theMovieDbRootUrl";
+    private static final String PROP_VALUE_ROOT_URL = "http://rootUrl";
+    private static final String CONFIGURATION_URL = PROP_VALUE_ROOT_URL + "/configuration?api_key=" + PROP_VALUE_API_KEY;
+    private static final String SEARCH_TV_SHOW_BY_TITLE_URL = PROP_VALUE_ROOT_URL + "/search/tv?query=" +
+            TV_SHOW_TITLE + "&" + "api_key=" + PROP_VALUE_API_KEY;
 
     @Mock
     private RestTemplate restTemplate;
@@ -49,6 +53,7 @@ public class TvShowControllerTest {
         MockitoAnnotations.initMocks(this);
         mockServer = createServer(restTemplate);
         ReflectionTestUtils.setField(underTest, PROP_KEY_MOVIE_DB_API_KEY, PROP_VALUE_API_KEY);
+        ReflectionTestUtils.setField(underTest, PROP_KEY_MOVIE_DB_ROOT_URL, PROP_VALUE_ROOT_URL);
     }
 
     @Test
@@ -57,17 +62,17 @@ public class TvShowControllerTest {
         TvShow tvShow = new TvShow();
         tvShow.setId(TV_SHOW_ID);
         mockedResponse.setResults(Arrays.asList(tvShow));
-        when(restTemplate.getForObject(TheMovieDbUriBuilder.getSearchTvShowByTitleUrl(TV_SHOW_TITLE), TvShowSearchResult.class)).thenReturn(mockedResponse);
+        when(restTemplate.getForObject(SEARCH_TV_SHOW_BY_TITLE_URL, TvShowSearchResult.class)).thenReturn(mockedResponse);
 
         TvShowConfiguration tvShowConfiguration = new TvShowConfiguration();
         TvShowImages tvShowImages = new TvShowImages();
         tvShowImages.setBaseUrl(TV_SHOW_IMAGES_BASE_URL);
         tvShowImages.setPosterSizes(Arrays.asList(POSTER_SIZE));
         tvShowConfiguration.setImages(tvShowImages);
-        when(restTemplate.getForObject(TheMovieDbUriBuilder.getConfigurationUrl(), TvShowConfiguration.class)).thenReturn(tvShowConfiguration);
+        when(restTemplate.getForObject(CONFIGURATION_URL, TvShowConfiguration.class)).thenReturn(tvShowConfiguration);
 
         mockServer
-                .expect(requestTo(TheMovieDbUriBuilder.getSearchTvShowByTitleUrl(TV_SHOW_TITLE)))
+                .expect(requestTo(SEARCH_TV_SHOW_BY_TITLE_URL))
                 .andExpect(MockRestRequestMatchers.method(HttpMethod.GET))
                 .andRespond(MockRestResponseCreators.withSuccess());
 
