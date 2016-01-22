@@ -1,18 +1,16 @@
 package me.twis.controller;
 
-import me.twis.entity.Episode;
-import me.twis.entity.TvShowConfiguration;
-import me.twis.entity.TvShowSearchResult;
-import me.twis.entity.Validation;
+import me.twis.entity.*;
+import me.twis.persistance.FollowedTvShow;
+import me.twis.persistance.TvShowRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.websocket.server.PathParam;
+import java.util.List;
 
 /**
  * Created by kalizsolt on 10/01/16.
@@ -24,6 +22,9 @@ public class TvShowController {
     private static final String MOVIE_DB_CONFIGURATION = "configuration";
     private static final String PATH_PARAM_QUERY = "query=";
     private static final String PATH_PARAM_API_KEY = "api_key=";
+
+    @Autowired
+    TvShowRepository tvShowRepository;
 
     @Value("${themoviedb.url}")
     private String theMovieDbRootUrl;
@@ -46,6 +47,16 @@ public class TvShowController {
         TvShowConfiguration configuration = restTemplate.getForObject(getConfigurationUrl(), TvShowConfiguration.class);
 
         return configuration.getImages().getBaseUrl() + configuration.getImages().getPosterSizes().get(0);
+    }
+
+    @RequestMapping(value = "/follow/tv-show", method = RequestMethod.POST, headers = {"Content-type=application/json"})
+    public void followTvShow(@RequestBody FollowedTvShow tvShow) {
+        tvShowRepository.save(tvShow);
+    }
+
+    @RequestMapping("/list/followed/tv-shows")
+    public Iterable<FollowedTvShow> getFollowedTvShows() {
+        return tvShowRepository.findAll();
     }
 
     @RequestMapping("/validate/tv-show/id/{id}/season/{season}/episode/{episode}")

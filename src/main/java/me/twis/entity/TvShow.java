@@ -15,7 +15,7 @@ public class TvShow {
 
     private double popularity;
 
-    private int id;
+    private long id;
 
     @JsonProperty("backdrop_path")
     private String backdropPath;
@@ -61,11 +61,11 @@ public class TvShow {
         this.popularity = popularity;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

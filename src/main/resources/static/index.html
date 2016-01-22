@@ -27,6 +27,7 @@
                    typeahead-no-results="noResults"
                    typeahead-show-hint="true"
                    typeahead-min-length="3"
+                   typeahead-on-select="onSelect($item)"
                    class="form-control"
                    typeahead-template-url="./template/tv-show-item.html">
             <i ng-show="loadingTvShows" class="glyphicon glyphicon-refresh"></i>
@@ -35,6 +36,13 @@
             </div>
         </div>
     </div>
+
+    <div class="row" ng-repeat="followedTvShow in followedSeries">
+        <div class="col-xs-12">
+            {{followedTvShow.name}}
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-xs-12">
             <img src="./img/tmdb-logo.svg" class="themoviedb-logo"/>

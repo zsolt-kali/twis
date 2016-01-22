@@ -9,5 +9,9 @@ Front-end dependencies should be installed using bower:
 ```sh
 bower install
 ```
+To run the project type:
+```sh
+mvn spring-boot:run
+```
 
 [themoviedb]: <https://www.themoviedb.org/documentation/api>
