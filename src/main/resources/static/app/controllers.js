@@ -1,4 +1,11 @@
 var AppController = function ($scope, $http) {
+    var getFollowedSeries = function () {
+        $http.get('/list/followed/tv-shows').then(function (response) {
+            $scope.followedSeries = response.data;
+        });
+    };
+
+    $scope.followedSeries = getFollowedSeries();
 
     $scope.getTvShowByTitle = function (title) {
         return $http.get('/search/tv-show', {
@@ -31,13 +38,38 @@ var AppController = function ($scope, $http) {
             });
     };
 
-    var getFollowedSeries = function () {
-        $http.get('/list/followed/tv-shows').then(function (response) {
-            $scope.followedSeries = response.data;
-        });
+    $scope.switchMode = function (tvShow) {
+        if (tvShow.mode !== 'edit') {
+            tvShow.mode = 'edit';
+        }
+        else {
+            tvShow.mode = 'browse';
+        }
     };
 
-    $scope.followedSeries = getFollowedSeries();
+    $scope.unfollowTvShow = function (tvShow) {
+        //TODO: not implemented
+    };
+
+    $scope.increaseSeason = function (tvShow) {
+        tvShow.season += 1;
+    };
+
+    $scope.decreaseSeason = function (tvShow) {
+        if (tvShow.season > 0) {
+            tvShow.season -= 1;
+        }
+    };
+
+    $scope.increaseEpisode = function (tvShow) {
+        tvShow.episode += 1;
+    };
+
+    $scope.decreaseEpisode = function (tvShow) {
+        if (tvShow.episode > 0) {
+            tvShow.episode -= 1;
+        }
+    };
 };
 
 angular.module("twis.controllers").controller("AppController", AppController);

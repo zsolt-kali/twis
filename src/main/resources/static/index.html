@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
     <link rel="stylesheet" href="./bower_components/bootstrap-css-only/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/style.css"/>
 </head>
 <body ng-app="twis">
 <div class="container-fluid" ng-controller="AppController">
@@ -39,11 +39,41 @@
     </div>
 
     <div class="followedTvShows">
-        <div ng-if="followedSeries.length> 0" class="row" ng-repeat="followedTvShow in followedSeries">
-            <div class="col-xs-9 title-overflow">{{followedTvShow.name}}</div>
-            <div class="col-xs-3">S{{followedTvShow.season}}E{{followedTvShow.episode}}</div>
-            <hr ng-if="!$last" class="tvShowSeparator"/>
-       </div>
+        <div ng-if="followedSeries.length> 0"
+             ng-class="($last) ? 'row followedTvShowRow' : 'row followedTvShowRow followedTvShowRowBorder'"
+             ng-repeat="followedTvShow in followedSeries">
+            <div class="col-xs-9 title-overflow" ng-click="switchMode(followedTvShow)">{{followedTvShow.name}}</div>
+            <div class="col-xs-3 col-xs-tvshow-button">
+                <div ng-if="followedTvShow.mode !=='edit'" class="col-xs-3">
+                    S{{followedTvShow.season}}E{{followedTvShow.episode}}
+                </div>
+                <button ng-if="followedTvShow.mode ==='edit'"
+                        class="btn btn-danger btn-tvshow"
+                        ng-click="unfollowTvShow(followedTvShow)">Unfollow
+                </button>
+            </div>
+
+            <div ng-if="followedTvShow.mode ==='edit'" class="col-xs-9 row-edit-tvshow">
+                <button class="btn btn-default btn-circle btn-tvshow"
+                        ng-click="increaseSeason(followedTvShow)">+
+                </button>
+                S{{followedTvShow.season}}
+                <button class="btn btn-default btn-circle btn-tvshow btn-decrease-season"
+                        ng-click="decreaseSeason(followedTvShow)">-
+                </button>
+
+                <button class="btn btn-default btn-circle btn-tvshow"
+                        ng-click="increaseEpisode(followedTvShow)">+
+                </button>
+                E{{followedTvShow.episode}}
+                <button class="btn btn-default btn-circle btn-tvshow"
+                        ng-click="decreaseEpisode(followedTvShow)">-
+                </button>
+            </div>
+            <div ng-if="followedTvShow.mode ==='edit'" class="col-xs-3 row-edit-tvshow col-xs-tvshow-button">
+                <button class="btn btn-success btn-tvshow">Update</button>
+            </div>
+        </div>
     </div>
 
     <div class="row">
