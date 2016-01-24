@@ -9,7 +9,7 @@ Front-end dependencies should be installed using bower:
 ```sh
 bower install
 ```
-To run the project type:
+To run the project type this command:
 ```sh
 mvn spring-boot:run
 ```

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <link rel="stylesheet" href="./bower_components/bootstrap-css-only/css/bootstrap.min.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <link rel="stylesheet" href="./bower_components/bootstrap-css-only/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="./css/style.css" />
 </head>
 <body ng-app="twis">
@@ -31,16 +31,19 @@
                    class="form-control"
                    typeahead-template-url="./template/tv-show-item.html">
             <i ng-show="loadingTvShows" class="glyphicon glyphicon-refresh"></i>
+
             <div ng-show="noResults">
                 <i class="glyphicon glyphicon-remove"></i> No Results Found
             </div>
         </div>
     </div>
 
-    <div class="row" ng-repeat="followedTvShow in followedSeries">
-        <div class="col-xs-12">
-            {{followedTvShow.name}}
-        </div>
+    <div class="followedTvShows">
+        <div ng-if="followedSeries.length> 0" class="row" ng-repeat="followedTvShow in followedSeries">
+            <div class="col-xs-9 title-overflow">{{followedTvShow.name}}</div>
+            <div class="col-xs-3">S{{followedTvShow.season}}E{{followedTvShow.episode}}</div>
+            <hr ng-if="!$last" class="tvShowSeparator"/>
+       </div>
     </div>
 
     <div class="row">
