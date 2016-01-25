@@ -49,9 +49,14 @@ public class TvShowController {
         return configuration.getImages().getBaseUrl() + configuration.getImages().getPosterSizes().get(0);
     }
 
-    @RequestMapping(value = "/follow/tv-show", method = RequestMethod.POST, headers = {"Content-type=application/json"})
+    @RequestMapping(value = "/follow/tv-show", method = RequestMethod.PUT, headers = {"Content-type=application/json"})
     public void followTvShow(@RequestBody FollowedTvShow tvShow) {
         tvShowRepository.save(tvShow);
+    }
+
+    @RequestMapping(value = "/unfollow/tv-show", method = RequestMethod.DELETE)
+    public void unfollowTvShow(@PathParam("tvShowId") Long tvShowId) {
+        tvShowRepository.delete(tvShowId);
     }
 
     @RequestMapping("/list/followed/tv-shows")

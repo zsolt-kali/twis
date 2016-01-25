@@ -17,7 +17,7 @@ twisApp.service('tvShowService', function ($http) {
     };
 
     this.followTvShow = function (tvShow, successHandler, failureHandler) {
-        $http.post('/follow/tv-show',
+        $http.put('/follow/tv-show',
             {
                 id: tvShow.id,
                 name: tvShow.name,
@@ -28,6 +28,19 @@ twisApp.service('tvShowService', function ($http) {
             successHandler,
             failureHandler
         );
-    }
+    };
+
+    this.unfollowTvShow = function (tvShowId, successHandler, failureHandler) {
+        $http.delete('/unfollow/tv-show',
+            {
+                params: {
+                    tvShowId: tvShowId
+                }
+            }
+        ).then(
+            successHandler,
+            failureHandler
+        );
+    };
 
 });

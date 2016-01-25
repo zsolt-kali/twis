@@ -47,8 +47,18 @@ var AppController = function ($scope, $http, tvShowService) {
         }
     };
 
-    $scope.unfollowTvShow = function (tvShow) {
-        //TODO: not implemented
+    var unfollowTvShowSuccessHandler = function () {
+        tvShowService.getFollowedSeries(getFolloedSeriesSuccessHandler, getFolloedSeriesErrorHandler);
+    };
+    var unfollowTvShowErrorHandler = function () {
+        //TODO: add error handler
+    };
+    $scope.unfollowTvShow = function (tvShowToUnfollow) {
+        tvShowService.unfollowTvShow(tvShowToUnfollow.id, unfollowTvShowSuccessHandler, unfollowTvShowErrorHandler);
+    };
+
+    $scope.updateFollowedTvShow = function (tvShowToUpdate) {
+        tvShowService.followTvShow(tvShowToUpdate, followTvShowSuccessHandler, followTvShowErrorHandler)
     };
 
     $scope.increaseSeason = function (tvShow) {
