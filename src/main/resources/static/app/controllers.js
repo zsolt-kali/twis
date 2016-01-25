@@ -1,41 +1,41 @@
-var AppController = function ($scope, $http) {
-    var getFollowedSeries = function () {
-        $http.get('/list/followed/tv-shows').then(function (response) {
-            $scope.followedSeries = response.data;
+var AppController = function ($scope, $http, tvShowService) {
+    var getFolloedSeriesSuccessHandler = function (response) {
+        $scope.followedSeries = response.data;
+    };
+    var getFolloedSeriesErrorHandler = function () {
+        // TODO: add error handler
+        $scope.followedSeries = {};
+    };
+    tvShowService.getFollowedSeries(getFolloedSeriesSuccessHandler, getFolloedSeriesErrorHandler);
+
+    var getTvShowByTitleSuccessHandler = function (response) {
+        return response.data.results.map(function (item) {
+            return item;
         });
     };
-
-    $scope.followedSeries = getFollowedSeries();
-
+    var getTvShowByTitleErrorHandler = function () {
+        //TODO: implement error handler
+    };
     $scope.getTvShowByTitle = function (title) {
-        return $http.get('/search/tv-show', {
-            params: {
-                title: title
-            }
-        }).then(function (response) {
-            return response.data.results.map(function (item) {
-                return item;
-            });
-        });
+        return tvShowService.getTvShowByTitle(title, getTvShowByTitleSuccessHandler, getTvShowByTitleErrorHandler);
     };
 
+    var followTvShowSuccessHandler = function () {
+        $scope.asyncSelected = "";
+        tvShowService.getFollowedSeries(getFolloedSeriesSuccessHandler, getFolloedSeriesErrorHandler);
+    };
+    var followTvShowErrorHandler = function () {
+        //TODO: add error handler
+        $scope.asyncSelected = "";
+    };
     $scope.onSelect = function ($item) {
-        $http.post('/follow/tv-show',
+        tvShowService.followTvShow(
             {
                 id: $item.id,
                 name: $item.name,
                 season: $item.season,
                 episode: $item.episode
-            })
-            .then(
-            function (responseSuccess) {
-                $scope.asyncSelected = "";
-                getFollowedSeries();
-            },
-            function (responseError) {
-                //TODO: add error handler
-                $scope.asyncSelected = "";
-            });
+            }, followTvShowSuccessHandler, followTvShowErrorHandler);
     };
 
     $scope.switchMode = function (tvShow) {
